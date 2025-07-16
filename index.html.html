@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script&display=swap" rel="stylesheet">
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Dancing Script', cursive;
+      background: linear-gradient(to bottom, #fff0f5, #ffe4e1),
+                  url('https://www.transparenttextures.com/patterns/flower.png') repeat;
+      color: #4a148c;
+      text-align: center;
+      padding: 2rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1, h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+    }
+
+    header, footer {
+      margin-bottom: 2rem;
+    }
+
+    nav a {
+      color: #ba68c8;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      justify-items: center;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 200px;
+      height: 250px;
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s ease-in-out;
+      transform-style: preserve-3d;
+      border-radius: 12px;
+    }
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card:active .flip-card-inner {
+      transform: rotateY(180deg) scale(1.1);
+      box-shadow: 0 0 20px 5px #f06292;
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    .flip-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .flip-card-back {
+      background: radial-gradient(circle at center, #ffdde1, #ee9ca7);
+      color: #4a148c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotateY(180deg);
+      padding: 1rem;
+      font-size: 1.1rem;
+      text-align: center;
+      font-weight: bold;
+      animation: fadeIn 1s ease-in;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: rotateY(180deg) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: rotateY(180deg) scale(1);
+      }
+    }
+
+    .flip-card-back::after {
+      content: "💖";
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.8;
+      top: 20%;
+      left: 50%;
+      animation: floatHearts 3s infinite ease-in-out;
+    }
+
+    @keyframes floatHearts {
+      0% {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translate(-50%, -20px) scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -40px) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    .letter {
+      background-color: #fce4ec;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.3rem;
+    }
+
+    button {
+      background: linear-gradient(to right, #ba68c8, #f06292);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      font-family: inherit;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #surprise {
+      margin-top: 1.2rem;
+      font-weight: bold;
+      color: #d81b60;
+      font-size: 1.3rem;
+      display: none;
+    }
+
+    .typing::after {
+      content: "🌟 You’re not getting older, you’re getting more legendary! 🌟";
+      display: inline-block;
+      overflow: hidden;
+      border-right: .15em solid #ba68c8;
+      white-space: nowrap;
+      animation: typing 4s steps(50, end), blink .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: #ba68c8; }
+    }
+
+    .petal {
+      position: absolute;
+      top: -50px;
+      width: 40px;
+      height: 40px;
+      background-image: url('kp2_dm.gif');
+      background-size: cover;
+      opacity: 0.9;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    #music-permission-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+
+    #music-permission-modal div {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 300px;
+      font-family: 'Great Vibes', cursive;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Music Permission Modal -->
+  <div id="music-permission-modal">
+    <div>
+      <p>🎵 Would you like to play background music?</p>
+      <button onclick="startMusic()">Allow Music</button>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="I Think They Call This Love-mobcupe.com.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Script Section -->
+  <script>
+    for (let i = 0; i < 30; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (5 + Math.random() * 5) + 's';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(petal);
+    }
+
+    function startMusic() {
+      const music = document.getElementById("bg-music");
+      music.play().then(() => {
+        document.getElementById("music-permission-modal").style.display = "none";
+      }).catch(error => {
+        alert("Playback failed. Please allow audio manually.");
+        console.error("Playback error:", error);
+      });
+    }
+
+    function showSurprise() {
+      document.getElementById("surprise").style.display = "block";
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      const duration = 1 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 100,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 100,
+          origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+
+  <!-- Content -->
+  <header>
+    <h1>Happy Birthday, Shubhi!</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#message">Message</a>
+    </nav>
+  </header>
+
+  <section id="home">
+    <h2>Wishing you joy, love, and laughter 🌸</h2>
+    <p>May your special day be as lovely as you are!</p>
+  </section>
+
+  <section id="gallery">
+    <h2>Moments We Shared 🌸</h2>
+    <div class="gallery">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="461996831_8426359177455018_7422317335115418868_n.jpg" alt="Front" />
+          </div>
+          <div class="flip-card-back">
+            <p>MOMENT OF CHERISHMENT</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="481090607_18046474706197025_215587558543712745_n.jpg" alt="Front" />
+          </div>
+          <div class="flip-card-back">
+            <p>YOUR SMILE MOTIVATED ME ❤️</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="481266991_18046474526197025_3642604207110246414_n.jpg" alt="Front" />
+          </div>
+          <div class="flip-card-back">
+            <p>AS LIKE THIS SONG YOU ARE IN MY MIND</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="message">
+    <h2>A Letter for You 💌</h2>
+    <div class="letter">
+      Dear Shubhi,<br><br>
+      Like petals dancing in the wind, your presence brings grace, laughter, and warmth into our lives. Wishing you a day full of smiles and blooming joy.<br><br>
+      Your Best Friend 💖
+    </div>
+    <button onclick="showSurprise()">Press to Smile 😊</button>
+    <div id="surprise" class="typing"></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Made with love for Shubhi By Priyanshuu</p>
+  </footer>
+
+</body>
+</html>
